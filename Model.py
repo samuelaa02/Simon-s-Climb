@@ -1,0 +1,1 @@
+#holds all information regarding the game state, including instances of all objects currently loaded
