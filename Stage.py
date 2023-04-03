@@ -5,7 +5,6 @@ import pygame, sys, array
 
 class Stage:
     def __init__(self, filepath):
-        
         self.filepath = filepath
         self.load_level()
         
@@ -24,6 +23,7 @@ class Stage:
             if(file.readline() != "Platforms"):
                 sys.exit("~~Expected \"Platforms\" title after spawnpoint information.~~")
             self.stageLayout[self.dimensions.x][self.dimensions.y]
+
             tempPlatformInfo = file.readline()
             while(tempPlatformInfo != "Enemies"):
                 tempPlatformInfo.split()
@@ -31,23 +31,26 @@ class Stage:
                     self.stageLayout[int(tempPlatformInfo[1])][int(tempPlatformInfo[2])] = Platform(tempPlatformInfo[0],int(tempPlatformInfo[1]),int(tempPlatformInfo[2]))
                 except:
                     sys.exit("~~Invalid platform definition.~~\n")
-            
+                tempPlatformInfo = file.readline()
 
+            tempEnemyInfo = file.readline()
+            while(tempEnemyInfo != "Collectibles"):
+                tempEnemyInfo.split()
+                try: 
+                    self.enemies.append(tempEnemyInfo)
+                except:
+                    sys.exit("~~Invalid Enemy definition.~~\n")
+                tempEnemyInfo = file.readline()
 
-            for line in file:
-                #read in and validate information
-                #read level name
-                #read width, height
-                #read bg file path
-                #spawn point
-                #platforms
-                #type posx posy
-                #enemies
-                #type posx posy
-                #collectibles
-                #type posx posy
+            tempCollectInfo = file.readline()
+            while (tempCollectInfo != ""):
+                tempCollectInfo.split()
+                try: 
+                    self.collectibles.append(tempCollectInfo)
+                except:
+                    sys.exit("~~Invalid Collectible definition.~~\n")
+                tempCollectInfo = file.readline()
 
-                pass
     
 
     #needs work
