@@ -1,8 +1,15 @@
+import pygame, sys, Controller, Model, View
 
-#intialize everything
+pygame.init()
 
+model = Model.Model()
+view = View.View()
+controller = Controller.Controller(model, view)
 
-#gameloop
-while (True):
-    #Model View Controller
-    pass
+while True:
+    for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+    #view.updateResolution(model.stage.resolution)
+    view.updateView(model)

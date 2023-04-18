@@ -3,7 +3,7 @@ import pygame
 import sys
 
 
-class ClimbController:
+class Controller:
     def __init__(self, model, view):
         self.model = model
         self.view = view
@@ -42,11 +42,14 @@ class ClimbController:
 
     def update(self):
         #updatest the game state
+        pass
 
 
     def run(self):
-        clock = pygame.time.Clock()
-        while True:
-            clock.tick(60)
-            self.handle_events()
-            self.update()
+        pass
+        #clock = pygame.time.Clock()
+        #while True:
+        #    clock.tick(60)
+        #    self.handle_events()
+        #    self.update()
+

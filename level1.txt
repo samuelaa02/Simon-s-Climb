@@ -1,0 +1,34 @@
+Level 1
+8 16
+./bg/tempbg.png
+0 1
+Platforms
+Wood23 0 0
+Wood23 1 0
+Wood23 2 0
+Wood23 3 0
+Wood23 4 0
+Wood23 5 0
+Wood23 6 0
+Wood23 7 0
+Wood32 5 2
+Wood28 6 2
+Wood30 7 2
+Wood32 0 4
+Wood30 1 4
+Wood32 3 6
+Wood30 4 6
+Wood0 1 8
+Wood0 4 9
+Wood32 6 9
+Wood30 7 9
+Wood32 2 11
+Wood28 3 11
+Wood30 4 11
+Wood32 0 13
+Wood28 1 13
+Wood30 2 13
+Enemies
+ANT 5 1
+Collectibles
+EGG 2 1

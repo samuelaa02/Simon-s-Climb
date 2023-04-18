@@ -2,40 +2,49 @@
 
 import pygame, sys, array
 
+#load all platform images
+
+PLATFORM_SIZE = 32
 
 class Stage:
+
     def __init__(self, filepath):
         self.filepath = filepath
         self.load_level()
+        self.resolution = (self.dimensions[0] * PLATFORM_SIZE, self.dimensions[1] * PLATFORM_SIZE)
         
-        pass
 
     def load_level(self):
         with open(self.filepath) as file:
 
             self.stageName = file.readline()
             stageDim = file.readline().split()
-            self.dimensions = pygame.math.Vector2(int(stageDim[0]), int(stageDim[1]))
-            self.background = file.readline()
-            spawnPt = file.readline().split
+            self.dimensions = (int(stageDim[0]), int(stageDim[1]))
+            backgroundfp = file.readline().rstrip()
+            print(backgroundfp)
+            self.background = pygame.image.load(backgroundfp)
+            spawnPt = file.readline().split()  
             self.spawnPoint = pygame.math.Vector2(int(spawnPt[0]), int(spawnPt[1]))
 
-            if(file.readline() != "Platforms"):
+
+            if(file.readline() != "Platforms\n"):
                 sys.exit("~~Expected \"Platforms\" title after spawnpoint information.~~")
-            self.stageLayout[self.dimensions.x][self.dimensions.y]
+            self.stageLayout = [[None for _ in range(self.dimensions[0])] for _ in range(self.dimensions[1])]
 
             tempPlatformInfo = file.readline()
-            while(tempPlatformInfo != "Enemies"):
-                tempPlatformInfo.split()
+            while(tempPlatformInfo != "Enemies\n"):
+                tempPlatformInfo = tempPlatformInfo.split(" ")
                 try:
-                    self.stageLayout[int(tempPlatformInfo[1])][int(tempPlatformInfo[2])] = Platform(tempPlatformInfo[0],int(tempPlatformInfo[1]),int(tempPlatformInfo[2]))
+                    #print("("+ str(self.dimensions[0]) + ", " + str(self.dimensions[1]) + ") " + str(tempPlatformInfo[1]) + " " + str(tempPlatformInfo[2])) 
+                    self.stageLayout[self.dimensions[1]-1-int(tempPlatformInfo[2])][int(tempPlatformInfo[1])] = Platform(tempPlatformInfo[0],int(tempPlatformInfo[1]),self.dimensions[1]-1-int(tempPlatformInfo[2]))
                 except:
                     sys.exit("~~Invalid platform definition.~~\n")
                 tempPlatformInfo = file.readline()
 
             tempEnemyInfo = file.readline()
-            while(tempEnemyInfo != "Collectibles"):
-                tempEnemyInfo.split()
+            self.enemies = []
+            while(tempEnemyInfo != "Collectibles\n"):
+                tempEnemyInfo.split(" ")
                 try: 
                     self.enemies.append(tempEnemyInfo)
                 except:
@@ -43,8 +52,9 @@ class Stage:
                 tempEnemyInfo = file.readline()
 
             tempCollectInfo = file.readline()
+            self.collectibles = []
             while (tempCollectInfo != ""):
-                tempCollectInfo.split()
+                tempCollectInfo.split(" ")
                 try: 
                     self.collectibles.append(tempCollectInfo)
                 except:
@@ -55,8 +65,8 @@ class Stage:
 
     #needs work
 class Platform:
+    
     def __init__(self, material, posx, posy):
         self.material = material
-        self.variant = 0
-        self.position = pygame.math.Vector2(posx, posy)
+        self.rect = pygame.Rect((posx * PLATFORM_SIZE, posy * PLATFORM_SIZE),(PLATFORM_SIZE,PLATFORM_SIZE))
 
