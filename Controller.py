@@ -11,7 +11,7 @@ class Controller:
 
     def handle_events(self):
         #Controls for character movement
-        print(self.model.player.rect.x)
+        #print(self.model.player.rect.x)
 
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:

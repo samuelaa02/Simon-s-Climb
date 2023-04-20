@@ -9,11 +9,12 @@ BEETLE_STRENGTH = 2
 ANT = 'ANT'
 ANT_SPRITE = 'ant_sprite.png'
 ANT_STRENGTH = 1.5
+GRAVITY = 1
 
 class Entity:
     def __init__(self, sprite, x, y, gravity):
         self.sprite = pygame.image.load(sprite)
-        self.rect = pygame.Rect((x,y), self.sprite.get_size())
+        self.rect = self.sprite.get_rect()
         self.velocity = pygame.math.Vector2(x=0,y=0)
         self.gravity = gravity
         self.grounded = True
@@ -28,10 +29,10 @@ class Entity:
         #otherwise, move to that location
 
          # apply gravity
-        #self.velocity.y += self.gravity
+        self.velocity.y += GRAVITY
 
         # update position based on velocity
-        self.rect = self.velocity
+        self.rect.x += self.velocity.x
         self.rect.y += self.velocity.y
 
         # check for collisions
