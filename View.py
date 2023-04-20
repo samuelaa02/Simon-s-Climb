@@ -70,7 +70,7 @@ class View:
     def drawEntities(self, entities):
         for entity in entities:
             if isinstance(entity, Player):
-                self.gameWindow.blit(entity.sprite, entity.rect)
+                self.gameWindow.blit(pygame.transform.flip(entity.sprite,(entity.direction == 'right'),False), entity.rect)
             elif isinstance(entity, Enemy):
                 pass
 

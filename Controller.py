@@ -17,29 +17,21 @@ class Controller:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        print("left")
-                        self.model.player.velocity.x = -5
-                    elif event.key == pygame.K_RIGHT:
-                        self.model.player.velocity.x = 5
-                    elif event.key == pygame.K_UP and self.model.player.grounded:
-                        self.model.player.velocity.y = -15
+                
+                # using key.getpressed; events.key only registered holding the key down as a single press
+                # this will call the function for the entire duration the key is pressed instead
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_LEFT]:
+                    self.model.player.moveLeft()
+                if keys[pygame.K_RIGHT]:
+                    self.model.player.moveRight()
+                if keys[pygame.K_UP]:
+                    self.model.player.playerJump()
                 
                 
-
     def update(self):
         #updates the game state
+        self.handle_events()
         self.model.player.physicsUpdate()
 
-
-
-    def run(self):
-        pass
-        clock = pygame.time.Clock()
-        while True:
-            clock.tick(60)
-            self.handle_events()
-            self.update()
-            #self.view.updateView(self.model.entities)
 

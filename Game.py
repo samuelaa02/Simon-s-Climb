@@ -7,13 +7,13 @@ view = View.View()
 controller = Controller.Controller(model, view)
 
 while True:
-    for event in pygame.event.get():
+    """for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+    """
     #view.updateResolution(model.stage.resolution)
     
-    controller.handle_events()
     controller.update()
     
     view.updateView(model)
