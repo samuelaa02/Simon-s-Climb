@@ -12,4 +12,8 @@ while True:
                 pygame.quit()
                 sys.exit()
     #view.updateResolution(model.stage.resolution)
+    
+    controller.handle_events()
+    controller.update()
+    
     view.updateView(model)

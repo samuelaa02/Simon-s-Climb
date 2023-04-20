@@ -1,4 +1,5 @@
-import pygame, sys, Stage
+import pygame, sys, Stage, Entity
+from Entity import Player, Enemy, Entity
 
 #images
 WOOD0 = pygame.image.load("./tiles/Wood0.png")
@@ -51,7 +52,7 @@ class View:
     def updateView(self, model):
         self.drawBackground(model.stage)
         self.drawStage(model.stage)
-        #self.drawEntities()
+        self.drawEntities([model.player] + model.enemies)
         #self.drawGUI()
         pygame.display.flip()
     
@@ -64,10 +65,15 @@ class View:
             for x, platform in enumerate(row):
                 if platform is not None and isinstance(platform, Stage.Platform):
                     self.gameWindow.blit(self.getPlatformVariant(platform.material), platform.rect)
-        
-        
+
+
     def drawEntities(self, entities):
-        pass
+        for entity in entities:
+            if isinstance(entity, Player):
+                self.gameWindow.blit(entity.sprite, entity.rect)
+            elif isinstance(entity, Enemy):
+                pass
+
 
     def drawGUI(self):
         pass
