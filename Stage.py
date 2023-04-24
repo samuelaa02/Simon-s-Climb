@@ -1,6 +1,6 @@
 # object responsible for handling current stage layout information
 
-import pygame, sys, array
+import pygame, sys, array, Entity
 
 #load all platform images
 
@@ -35,7 +35,6 @@ class Stage:
             while(tempPlatformInfo != "Enemies\n"):
                 tempPlatformInfo = tempPlatformInfo.split(" ")
                 try:
-                    #print("("+ str(self.dimensions[0]) + ", " + str(self.dimensions[1]) + ") " + str(tempPlatformInfo[1]) + " " + str(tempPlatformInfo[2])) 
                     self.stageLayout[self.dimensions[1]-1-int(tempPlatformInfo[2])][int(tempPlatformInfo[1])] = Platform(tempPlatformInfo[0],int(tempPlatformInfo[1]),self.dimensions[1]-1-int(tempPlatformInfo[2]))
                 except:
                     sys.exit("~~Invalid platform definition.~~\n")
@@ -44,9 +43,9 @@ class Stage:
             tempEnemyInfo = file.readline()
             self.enemies = []
             while(tempEnemyInfo != "Collectibles\n"):
-                tempEnemyInfo.split(" ")
+                tempEnemyInfo = tempEnemyInfo.split(" ")
                 try: 
-                    self.enemies.append(tempEnemyInfo)
+                    self.enemies.append(Entity.Enemy(tempEnemyInfo[0], int(tempEnemyInfo[1]), int(tempEnemyInfo[2])))
                 except:
                     sys.exit("~~Invalid Enemy definition.~~\n")
                 tempEnemyInfo = file.readline()
@@ -54,7 +53,7 @@ class Stage:
             tempCollectInfo = file.readline()
             self.collectibles = []
             while (tempCollectInfo != ""):
-                tempCollectInfo.split(" ")
+                tempCollectInfo = tempCollectInfo.split(" ")
                 try: 
                     self.collectibles.append(tempCollectInfo)
                 except:

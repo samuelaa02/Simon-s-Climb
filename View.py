@@ -57,10 +57,10 @@ class View:
         pygame.display.flip()
     
     def drawBackground(self, stage):
+        self.updateResolution(stage.resolution)
         self.gameWindow.blit(stage.background,stage.background.get_rect())
 
     def drawStage(self, stage):
-        self.updateResolution(stage.resolution)
         for y, row in enumerate(stage.stageLayout):
             for x, platform in enumerate(row):
                 if platform is not None and isinstance(platform, Stage.Platform):

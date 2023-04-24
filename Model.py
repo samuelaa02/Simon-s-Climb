@@ -45,23 +45,3 @@ class Level:
 #        self.current_level = current_level
 #        self.fruits_collected = fruits_collected
 #        self.bird_eggs_collected = bird_eggs_collected
-
-#may or may not need a tree class? depends on how it interacts with the player
-"""class Tree:
-    def __init__(self, x, y, width, height, branches):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.branches = branches
-        
-    def is_colliding_with_player(self, player_rect):
-        tree_rect = pygame.Rect(self.x, self.y, self.width, self.height)
-        return tree_rect.colliderect(player_rect)
-        
-    def shake(self):
-        for branch in self.branches:
-            branch.shake()
-    
-    etc etc
-"""

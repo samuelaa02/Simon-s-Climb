@@ -1,17 +1,20 @@
 import pygame, sys
 
 PLAYER_SPRITE = 'player_sprite.png'
-BEETLE = 'BEETLE'
 
+BEETLE = 'BEETLE'
 BEETLE_SPRITE = 'beetle_sprite.png'
 BEETLE_STRENGTH = 2
 
 ANT = 'ANT'
 ANT_SPRITE = 'ant_sprite.png'
 ANT_STRENGTH = 1.5
+
+EGG = 'EGG'
+
 GRAVITY = 1
 PLAYER_SPEED = 1
-MAX_SPEED = 10
+MAX_SPEED = 8
 JUMP_HEIGHT = 13
 
 class Entity:
@@ -52,6 +55,7 @@ class Entity:
                     self.velocity.y = 0
         """
         #check for screen bounds
+
 
     # update the entity state based on values stored
     def stateUpdate(self):
@@ -108,9 +112,7 @@ class Enemy(Entity):
             self.strength = ANT_STRENGTH
         
             
-
-
 class Collectible:
-    def __init__(self, sprite, type, x, y):
-        self.sprite = pygame.image.load(sprite)
+    def __init__(self, type, x, y):
+        self.sprite = type
         self.rect = self.sprite.get_rect()
