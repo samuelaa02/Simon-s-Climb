@@ -20,7 +20,7 @@ JUMP_HEIGHT = 13
 class Entity:
     def __init__(self, sprite, x, y, gravity):
         self.sprite = pygame.image.load(sprite)
-        self.rect = self.sprite.get_rect()
+        self.rect = pygame.Rect((x,y),self.sprite.get_size())
         self.velocity = pygame.math.Vector2(x=0,y=0)
         self.gravity = gravity
         self.grounded = True

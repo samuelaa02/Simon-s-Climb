@@ -45,7 +45,7 @@ class Stage:
             while(tempEnemyInfo != "Collectibles\n"):
                 tempEnemyInfo = tempEnemyInfo.split(" ")
                 try: 
-                    self.enemies.append(Entity.Enemy(tempEnemyInfo[0], int(tempEnemyInfo[1]), int(tempEnemyInfo[2])))
+                    self.enemies.append(Entity.Enemy(tempEnemyInfo[0], int(tempEnemyInfo[1])*PLATFORM_SIZE, int(tempEnemyInfo[2])*PLATFORM_SIZE))
                 except:
                     sys.exit("~~Invalid Enemy definition.~~\n")
                 tempEnemyInfo = file.readline()
