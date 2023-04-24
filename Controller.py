@@ -32,6 +32,8 @@ class Controller:
     def update(self):
         #updates the game state
         self.handle_events()
-        self.model.player.physicsUpdate()
+        self.model.player.physicsUpdate(self.model)
+        for enemy in self.model.enemies:
+            enemy.physicsUpdate(self.model)
 
 

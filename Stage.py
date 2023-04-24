@@ -21,10 +21,9 @@ class Stage:
             stageDim = file.readline().split()
             self.dimensions = (int(stageDim[0]), int(stageDim[1]))
             backgroundfp = file.readline().rstrip()
-            print(backgroundfp)
             self.background = pygame.image.load(backgroundfp)
             spawnPt = file.readline().split()  
-            self.spawnPoint = pygame.math.Vector2(int(spawnPt[0]), int(spawnPt[1]))
+            self.spawnPoint = pygame.math.Vector2(int(spawnPt[0])*PLATFORM_SIZE, (self.dimensions[1]-1-int(spawnPt[1]))*PLATFORM_SIZE)
 
 
             if(file.readline() != "Platforms\n"):
@@ -45,7 +44,7 @@ class Stage:
             while(tempEnemyInfo != "Collectibles\n"):
                 tempEnemyInfo = tempEnemyInfo.split(" ")
                 try: 
-                    self.enemies.append(Entity.Enemy(tempEnemyInfo[0], int(tempEnemyInfo[1])*PLATFORM_SIZE, int(tempEnemyInfo[2])*PLATFORM_SIZE))
+                    self.enemies.append(Entity.Enemy(tempEnemyInfo[0], int(tempEnemyInfo[1])*PLATFORM_SIZE, (self.dimensions[1]-1-int(tempEnemyInfo[2]))*PLATFORM_SIZE))
                 except:
                     sys.exit("~~Invalid Enemy definition.~~\n")
                 tempEnemyInfo = file.readline()

@@ -5,6 +5,7 @@ pygame.init()
 model = Model.Model()
 view = View.View()
 controller = Controller.Controller(model, view)
+clock = pygame.time.Clock()
 
 while True:
     """for event in pygame.event.get():
@@ -17,3 +18,4 @@ while True:
     controller.update()
     
     view.updateView(model)
+    clock = pygame.time.Clock()

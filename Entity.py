@@ -1,18 +1,23 @@
-import pygame, sys
+import pygame, sys, Stage
 
-PLAYER_SPRITE = 'player_sprite.png'
+PLAYER_SPRITE = './sprites/player_sprite.png'
 
 BEETLE = 'BEETLE'
-BEETLE_SPRITE = 'beetle_sprite.png'
+BEETLE_SPRITE = './sprites/beetle_sprite.png'
 BEETLE_STRENGTH = 2
 
 ANT = 'ANT'
-ANT_SPRITE = 'ant_sprite.png'
+ANT_SPRITE = './sprites/ant_sprite.png'
 ANT_STRENGTH = 1.5
 
 EGG = 'EGG'
+EGG_SPRITE = './sprites/egg_sprite.png'
+
+FLAG = 'FLAG'
+FLAG = './sprites/flag_sprite.png'
 
 GRAVITY = 1
+FRICTION = 2
 PLAYER_SPEED = 1
 MAX_SPEED = 8
 JUMP_HEIGHT = 13
@@ -23,11 +28,11 @@ class Entity:
         self.rect = pygame.Rect((x,y),self.sprite.get_size())
         self.velocity = pygame.math.Vector2(x=0,y=0)
         self.gravity = gravity
-        self.grounded = True
+        self.grounded = False
         self.direction = 'left'
         self.state = 'idle'
 
-    def physicsUpdate(self):
+    def physicsUpdate(self, model):
         #gravity acceleration
         #calc velocity/new position
         #check if new position collides with anything
@@ -35,27 +40,76 @@ class Entity:
         #otherwise, move to that location
 
         # gravity
-        self.velocity.y += GRAVITY
+        self.gravityFriction()
+        
 
-        # update position based on velocity
-        self.rect.x += int(self.velocity.x)
-        self.rect.y += int(self.velocity.y)
+        self.horizontalMove()
+        self.horizontalCollision(model)
+        self.verticalMove()
+        self.verticalCollision(model)
 
-        # check for collisions
-        """"
-        self.grounded = False
-        for platform in self.stageLayout:
-            if self.rect.colliderect(platform.rect):
-                if self.velocity.y > 0:
-                    self.rect.bottom = platform.rect.top
-                    self.velocity.y = 0
-                    self.grounded = True
-                elif self.velocity.y < 0:
-                    self.rect.top = platform.rect.bottom
-                    self.velocity.y = 0
-        """
         #check for screen bounds
 
+    def horizontalMove(self):
+        self.rect.x += int(self.velocity.x)
+
+    def horizontalCollision(self, model):
+        platforms = self.getCollisions(model)
+        for platform in platforms:
+            #moving right
+            if self.velocity.x > 0:
+                self.rect.right = platform.rect.left
+            #moving left
+            elif self.velocity.x < 0:
+                self.rect.left = platform.rect.right
+            self.velocity.x = 0
+
+
+    def verticalMove(self):
+        self.rect.y += int(self.velocity.y)
+    
+    def verticalCollision(self, model):
+        #self.rect.bottom += 1
+
+        platforms = self.getCollisions(model)
+        if not platforms:
+            self.grounded = False
+        for platform in platforms:
+            #moving down
+            if self.velocity.y > 0:
+                self.rect.bottom = platform.rect.top
+                self.grounded = True
+            #moving up
+            elif self.velocity.y < 0:
+                self.rect.top = platform.rect.bottom
+            self.velocity.y = 0
+
+
+    def getCollisions(self, model):
+        collisions = []
+        for y, row in enumerate(model.stage.stageLayout):
+            for x, platform in enumerate(row):
+                if platform is not None and isinstance(platform, Stage.Platform):
+                    if self.rect.colliderect(platform.rect):
+                        collisions.append(platform)
+        return collisions
+    
+    def gravityFriction(self):
+        if not self.grounded:
+            self.velocity.y += GRAVITY
+        else:
+            if self.velocity.x < FRICTION and self.velocity.x > -FRICTION:
+                self.velocity.x = 0
+            elif self.velocity.x > 0:
+                self.velocity.x -= FRICTION
+            elif self.velocity.x < 0:
+                self.velocity.x += FRICTION
+        
+        
+
+
+            
+            
 
     # update the entity state based on values stored
     def stateUpdate(self):
