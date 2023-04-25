@@ -30,5 +30,6 @@ Wood28 1 13
 Wood30 2 13
 Enemies
 ANT 5 1
+BEETLE 3 1
 Collectibles
 EGG 2 1

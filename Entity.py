@@ -31,6 +31,7 @@ class Entity:
         self.grounded = False
         self.direction = 'left'
         self.state = 'idle'
+       
 
     def physicsUpdate(self, model):
         #gravity acceleration
@@ -106,11 +107,6 @@ class Entity:
                 self.velocity.x += FRICTION
         
         
-
-
-            
-            
-
     # update the entity state based on values stored
     def stateUpdate(self):
         if self.velocity.x == 0 and self.velocity.y == 0:
@@ -164,7 +160,61 @@ class Enemy(Entity):
         elif(type == ANT):
             super().__init__(ANT_SPRITE, x, y, True)
             self.strength = ANT_STRENGTH
-        
+
+        self.moving_left = False
+
+    def physicsUpdate(self, model):
+        #apply gravity
+        self.gravityFriction()
+
+
+         #turn around if enemy reaches edge of screen
+        if self.rect.right >= model.stage.resolution[0]:
+            self.moving_left = True
+        elif self.rect.left <= 0:
+            self.moving_left = False
+
+        # check if enemy is at edge of screen
+        if self.moving_left and self.rect.left <= 0:
+            self.rect.left = 0
+            self.moving_left = False
+        elif not self.moving_left and self.rect.right >= model.stage.resolution[0]:
+            self.rect.right = model.stage.resolution[0]
+            self.moving_left = True
+
+        # check for collisions with platforms
+        platforms = self.getCollisions(model)
+        for platform in platforms:
+            #check if enemy is colliding with left or right side of platform
+            if self.rect.bottom > platform.rect.top and self.rect.top < platform.rect.bottom:
+                if self.rect.right > platform.rect.left and self.velocity.x > 0:
+                    self.moving_left = True
+                elif self.rect.left < platform.rect.right and self.velocity.x < 0:
+                    self.moving_left = False
+
+
+            # check if enemy is colliding with top or bottom of platform
+            if self.rect.right > platform.rect.left and self.rect.left < platform.rect.right:
+                if self.rect.bottom > platform.rect.top and self.velocity.y > 0:
+                    self.rect.bottom = platform.rect.top
+                    self.velocity.y = 0
+                    self.grounded = True
+            elif self.rect.top < platform.rect.bottom and self.velocity.y < 0:
+                self.rect.top = platform.rect.bottom
+                self.velocity.y = 0
+
+
+        # update enemy position based on direction
+        if self.moving_left:
+            self.horizontalMove()
+            self.moveLeft()
+            self.horizontalCollision(model)
+        else:
+            self.horizontalMove()
+            self.moveRight()
+            self.horizontalCollision(model)
+
+
             
 class Collectible:
     def __init__(self, type, x, y):
