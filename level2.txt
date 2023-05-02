@@ -1,0 +1,82 @@
+Level 2
+18 24
+./bg/level2.png
+./level1.txt
+1 1
+Platforms
+Wood23 0 0
+Wood23 1 0
+Wood23 2 0
+Wood23 3 0
+Wood23 4 0
+Wood23 5 0
+Wood23 6 0
+Wood23 7 0
+Wood23 8 0
+Wood23 9 0
+Wood23 10 0
+Wood23 11 0
+Wood23 12 0
+Wood23 13 0
+Wood23 14 0
+Wood23 15 0
+Wood23 16 0
+Wood23 17 0
+Wood32 7 2
+Wood28 8 2
+Wood30 9 2
+Wood28 0 4
+Wood28 1 4
+Wood28 2 4
+Wood30 3 4
+Wood32 12 4
+Wood30 13 4
+Wood0 7 6
+Wood32 15 6
+Wood30 16 6
+Wood32 2 8
+Wood28 3 8
+Wood30 4 8
+Wood32 12 8
+Wood30 13 8
+Wood30 0 10
+Wood32 15 10
+Wood30 16 10
+Wood32 7 11
+Wood28 8 11
+Wood28 9 11
+Wood30 10 11
+Wood32 2 12
+Wood28 3 12
+Wood28 4 12
+Wood17 5 12
+Wood27 5 13
+Wood32 15 13
+Wood30 16 13
+Wood27 5 14
+Wood27 5 15
+Wood32 7 15
+Wood28 8 15
+Wood28 9 15
+Wood30 10 15
+Wood28 0 16
+Wood28 1 16
+Wood28 2 16
+Wood28 3 16
+Wood28 4 16
+Wood16 5 16
+Wood0 3 18
+Wood32 8 19
+Wood30 9 19
+Wood32 13 20
+Wood28 14 20
+Wood28 15 20
+Wood28 16 20
+Wood28 17 20
+Wood31 13 22
+Wood27 13 23
+Enemies
+BEETLE 8 12
+Collectibles
+EGG 3 13
+FLAG 16 1

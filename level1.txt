@@ -1,6 +1,7 @@
 Level 1
 8 16
 ./bg/tempbg.png
+./level2.txt
 1 1
 Platforms
 Wood23 0 0
@@ -14,22 +15,21 @@ Wood23 7 0
 Wood32 5 2
 Wood28 6 2
 Wood30 7 2
-Wood32 0 4
-Wood30 1 4
-Wood32 3 6
-Wood30 4 6
-Wood0 1 8
+Wood32 0 3
+Wood30 1 3
+Wood32 5 5
+Wood30 6 5
+Wood0 1 7
 Wood0 4 9
 Wood32 6 9
 Wood30 7 9
-Wood32 2 11
-Wood28 3 11
-Wood30 4 11
+Wood32 1 11
+Wood28 2 11
+Wood30 3 11
 Wood32 0 13
 Wood28 1 13
 Wood30 2 13
 Enemies
-ANT 5 1
-BEETLE 3 1
+ANT 5 3
 Collectibles
-EGG 2 1
+FLAG 1 14

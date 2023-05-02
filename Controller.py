@@ -1,6 +1,5 @@
 #handles control of entities and player
-import pygame
-import sys
+import pygame, sys, Stage
 
 
 class Controller:
@@ -12,28 +11,35 @@ class Controller:
     def handle_events(self):
         #Controls for character movement
         #print(self.model.player.rect.x)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.model.player.moveLeft()
+        if keys[pygame.K_RIGHT]:
+            self.model.player.moveRight()
+        if keys[pygame.K_UP]:
+            self.model.player.playerJump()
 
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                
-                # using key.getpressed; events.key only registered holding the key down as a single press
-                # this will call the function for the entire duration the key is pressed instead
-                keys = pygame.key.get_pressed()
-                if keys[pygame.K_LEFT]:
-                    self.model.player.moveLeft()
-                if keys[pygame.K_RIGHT]:
-                    self.model.player.moveRight()
-                if keys[pygame.K_UP]:
-                    self.model.player.playerJump()
-                
-                
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_F11:
+                        pygame.display.toggle_fullscreen()
+                      
     def update(self):
         #updates the game state
         self.handle_events()
         self.model.player.physicsUpdate(self.model)
         for enemy in self.model.enemies:
-            enemy.physicsUpdate(self.model)
+            enemy.enemyUpdate(self.model)
+        
+        for collectible in self.model.collectibles:
+            collectible.collectibleCollide(self.model.player)
+            if(collectible.interacted and collectible.pickup):
+                self.model.collectibles.remove(collectible)
+            if(collectible.interacted and collectible.type == 'FLAG'):
+                self.model.changeStage(self.model.stage.nextLevel)
+
 
 

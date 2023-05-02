@@ -13,6 +13,7 @@ class Stage:
         self.load_level()
         self.resolution = (self.dimensions[0] * PLATFORM_SIZE, self.dimensions[1] * PLATFORM_SIZE)
         
+        
 
     def load_level(self):
         with open(self.filepath) as file:
@@ -22,6 +23,7 @@ class Stage:
             self.dimensions = (int(stageDim[0]), int(stageDim[1]))
             backgroundfp = file.readline().rstrip()
             self.background = pygame.image.load(backgroundfp)
+            self.nextLevel = file.readline().rstrip()
             spawnPt = file.readline().split()  
             self.spawnPoint = pygame.math.Vector2(int(spawnPt[0])*PLATFORM_SIZE, (self.dimensions[1]-1-int(spawnPt[1]))*PLATFORM_SIZE)
 
@@ -54,7 +56,7 @@ class Stage:
             while (tempCollectInfo != ""):
                 tempCollectInfo = tempCollectInfo.split(" ")
                 try: 
-                    self.collectibles.append(tempCollectInfo)
+                    self.collectibles.append(Entity.Collectible(tempCollectInfo[0],int(tempCollectInfo[1]) * PLATFORM_SIZE,(self.dimensions[1]-1-int(tempCollectInfo[2]))*PLATFORM_SIZE ))
                 except:
                     sys.exit("~~Invalid Collectible definition.~~\n")
                 tempCollectInfo = file.readline()

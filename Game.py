@@ -18,4 +18,4 @@ while True:
     controller.update()
     
     view.updateView(model)
-    clock = pygame.time.Clock()
+    clock.tick(60)

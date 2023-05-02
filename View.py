@@ -1,5 +1,5 @@
 import pygame, sys, Stage, Entity
-from Entity import Player, Enemy, Entity
+from Entity import Player, Enemy, Entity, Collectible
 
 #images
 WOOD0 = pygame.image.load("./tiles/Wood0.png")
@@ -42,22 +42,25 @@ class View:
     
     def __init__(self):
         pygame.display.set_caption("Simon's Climb")
-        displayFlags = pygame.SCALED | pygame.RESIZABLE
-        self.gameWindow = pygame.display.set_mode((960, 540), displayFlags)
+        displayFlags = pygame.SCALED | pygame.RESIZABLE | pygame.FULLSCREEN
+        self.gameWindow = pygame.display.set_mode((512, 512), displayFlags)
     
     def updateResolution(self, new_res):
-        displayFlags = pygame.SCALED | pygame.RESIZABLE
+        displayFlags = pygame.SCALED | pygame.RESIZABLE | pygame.FULLSCREEN
         self.gameWindow = pygame.display.set_mode(new_res, displayFlags)
 
     def updateView(self, model):
+        if(model.stage.resolution != self.gameWindow.get_size()):
+            self.updateResolution(model.stage.resolution)
+            #pygame.display.toggle_fullscreen()
         self.drawBackground(model.stage)
         self.drawStage(model.stage)
-        self.drawEntities([model.player] + model.enemies)
+        self.drawEntities([model.player] + model.enemies + model.collectibles)
         #self.drawGUI()
         pygame.display.flip()
     
     def drawBackground(self, stage):
-        self.updateResolution(stage.resolution)
+        #self.updateResolution(stage.resolution)
         self.gameWindow.blit(stage.background,stage.background.get_rect())
 
     def drawStage(self, stage):
@@ -69,10 +72,14 @@ class View:
 
     def drawEntities(self, entities):
         for entity in entities:
+            entity.rect.clamp_ip(self.gameWindow.get_rect())
             if isinstance(entity, Player):
                 self.gameWindow.blit(pygame.transform.flip(entity.sprite,(entity.direction == 'right'),False), entity.rect)
             elif isinstance(entity, Enemy):
                 self.gameWindow.blit(pygame.transform.flip(entity.sprite,(entity.direction == 'right'),False), entity.rect)
+            elif isinstance(entity, Collectible):
+                self.gameWindow.blit(entity.sprite, entity.rect)
+
 
 
     def drawGUI(self):

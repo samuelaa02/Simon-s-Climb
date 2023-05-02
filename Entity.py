@@ -8,27 +8,30 @@ BEETLE_STRENGTH = 2
 
 ANT = 'ANT'
 ANT_SPRITE = './sprites/ant_sprite.png'
-ANT_STRENGTH = 1.5
+ANT_STRENGTH = 1.2
 
 EGG = 'EGG'
 EGG_SPRITE = './sprites/egg_sprite.png'
 
 FLAG = 'FLAG'
-FLAG = './sprites/flag_sprite.png'
+FLAG_SPRITE = './sprites/flag_sprite.png'
 
-GRAVITY = 1
-FRICTION = 2
-PLAYER_SPEED = 1
-MAX_SPEED = 8
-JUMP_HEIGHT = 13
+GRAVITY = 0.2
+FRICTION = 1
+PLAYER_SPEED = .5
+MAX_SPEED = 3.5
+ENEMY_SPEED = 0.03  
+ENEMY_MAX_SPEED = 1
+JUMP_HEIGHT = 6
 
 class Entity:
-    def __init__(self, sprite, x, y, gravity):
+    def __init__(self, sprite, x, y, gravity, friction):
         self.sprite = pygame.image.load(sprite)
         self.rect = pygame.Rect((x,y),self.sprite.get_size())
         self.velocity = pygame.math.Vector2(x=0,y=0)
         self.gravity = gravity
         self.grounded = False
+        self.friction = friction
         self.direction = 'left'
         self.state = 'idle'
        
@@ -43,7 +46,6 @@ class Entity:
         # gravity
         self.gravityFriction()
         
-
         self.horizontalMove()
         self.horizontalCollision(model)
         self.verticalMove()
@@ -97,14 +99,16 @@ class Entity:
     
     def gravityFriction(self):
         if not self.grounded:
-            self.velocity.y += GRAVITY
+            if(self.gravity):
+                self.velocity.y += GRAVITY
         else:
-            if self.velocity.x < FRICTION and self.velocity.x > -FRICTION:
-                self.velocity.x = 0
-            elif self.velocity.x > 0:
-                self.velocity.x -= FRICTION
-            elif self.velocity.x < 0:
-                self.velocity.x += FRICTION
+            if (self.friction):
+                if self.velocity.x < FRICTION and self.velocity.x > -FRICTION:
+                    self.velocity.x = 0
+                elif self.velocity.x > 0:
+                    self.velocity.x -= FRICTION
+                elif self.velocity.x < 0:
+                    self.velocity.x += FRICTION
         
         
     # update the entity state based on values stored
@@ -143,7 +147,8 @@ class Entity:
 
 class Player(Entity):
     def __init__(self, x, y):
-        super().__init__(PLAYER_SPRITE, x, y, True)
+        super().__init__(PLAYER_SPRITE, x, y, True, True)
+        self.eggs = 0
     
     def playerJump(self):
         if self.grounded:
@@ -154,69 +159,110 @@ class Player(Entity):
 
 class Enemy(Entity):
     def __init__(self, type, x, y):
-        if(type == BEETLE):
-            super().__init__(BEETLE_SPRITE, x, y, True)
-            self.strength = BEETLE_STRENGTH
-        elif(type == ANT):
-            super().__init__(ANT_SPRITE, x, y, True)
-            self.strength = ANT_STRENGTH
+        self.enemyType = type
+        if(self.enemyType == BEETLE):
+            super().__init__(BEETLE_SPRITE, x, y, True, False)
+        elif(self.enemyType == ANT):
+            super().__init__(ANT_SPRITE, x, y, True, False)
+    
+    def enemyUpdate(self, model):
+            self.aiMovement(model)
+            self.physicsUpdate(model)
+            self.knockbackPlayer(model.player)
 
-        self.moving_left = False
+    def knockbackPlayer(self, player):
+        if(self.enemyType == BEETLE):
+            #check direction  
+            if self.direction == 'left':
+                leftline = (self.rect.topleft, self.rect.bottomleft)
+                if player.rect.clipline(leftline):
+                    player.velocity.x = -MAX_SPEED * BEETLE_STRENGTH 
+            else:
+                rightline = (self.rect.topright, self.rect.bottomright)
+                if player.rect.clipline(rightline):
+                    player.velocity.x = MAX_SPEED * BEETLE_STRENGTH 
+            
 
-    def physicsUpdate(self, model):
-        #apply gravity
-        self.gravityFriction()
-
-
-         #turn around if enemy reaches edge of screen
-        if self.rect.right >= model.stage.resolution[0]:
-            self.moving_left = True
-        elif self.rect.left <= 0:
-            self.moving_left = False
-
-        # check if enemy is at edge of screen
-        if self.moving_left and self.rect.left <= 0:
-            self.rect.left = 0
-            self.moving_left = False
-        elif not self.moving_left and self.rect.right >= model.stage.resolution[0]:
-            self.rect.right = model.stage.resolution[0]
-            self.moving_left = True
-
-        # check for collisions with platforms
-        platforms = self.getCollisions(model)
-        for platform in platforms:
-            #check if enemy is colliding with left or right side of platform
-            if self.rect.bottom > platform.rect.top and self.rect.top < platform.rect.bottom:
-                if self.rect.right > platform.rect.left and self.velocity.x > 0:
-                    self.moving_left = True
-                elif self.rect.left < platform.rect.right and self.velocity.x < 0:
-                    self.moving_left = False
+        elif(self.enemyType == ANT):
+            if self.rect.colliderect(player.rect):
+                self.velocity.x = 0
+                if(player.velocity.x < 0):
+                    player.velocity.x = MAX_SPEED * ANT_STRENGTH 
+                elif (player.velocity.x > 0):
+                    player.velocity.x = -MAX_SPEED * ANT_STRENGTH 
+                
+                player.velocity.y = -MAX_SPEED * ANT_STRENGTH
 
 
-            # check if enemy is colliding with top or bottom of platform
-            if self.rect.right > platform.rect.left and self.rect.left < platform.rect.right:
-                if self.rect.bottom > platform.rect.top and self.velocity.y > 0:
-                    self.rect.bottom = platform.rect.top
-                    self.velocity.y = 0
-                    self.grounded = True
-            elif self.rect.top < platform.rect.bottom and self.velocity.y < 0:
-                self.rect.top = platform.rect.bottom
-                self.velocity.y = 0
+    def moveRight(self):
+        if self.velocity.x < ENEMY_MAX_SPEED:
+            self.velocity.x += ENEMY_SPEED
+        if self.direction != 'right':
+            self.direction = 'right'
 
+    def moveLeft(self):
+        if self.velocity.x > -ENEMY_MAX_SPEED:
+            self.velocity.x -= ENEMY_SPEED
+        if self.direction != 'left':
+            self.direction = 'left'
 
-        # update enemy position based on direction
-        if self.moving_left:
-            self.horizontalMove()
-            self.moveLeft()
-            self.horizontalCollision(model)
-        else:
-            self.horizontalMove()
-            self.moveRight()
-            self.horizontalCollision(model)
-
+    def aiMovement(self, model):
+            if (self.direction == 'left'):
+                enemyGridPos = (int((self.rect.right-1)/32),int((self.rect.y)/32))
+                if((enemyGridPos[0]-1) < 0):
+                    self.moveRight()
+                else:
+                    try:
+                        if(model.stage.stageLayout[enemyGridPos[1]+1][enemyGridPos[0]-1] is not None):
+                            self.moveLeft()
+                        else:
+                            self.moveRight()
+                    except:
+                        self.moveRight()
+            else:
+                enemyGridPos = (int((self.rect.left)/32),int((self.rect.y)/32))
+                if((enemyGridPos[0]+1) == (model.stage.dimensions[0])):
+                    self.moveLeft()
+                else:
+                    try:
+                        if(model.stage.stageLayout[enemyGridPos[1]+1][enemyGridPos[0]+1] is not None):
+                            self.moveRight()
+                        else:
+                            self.moveLeft()
+                    except:
+                        self.moveLeft()
+            
 
             
 class Collectible:
     def __init__(self, type, x, y):
-        self.sprite = type
-        self.rect = self.sprite.get_rect()
+        if(type == EGG):
+            self.type = EGG
+            self.sprite = pygame.image.load(EGG_SPRITE)
+            self.pickup = True
+        elif(type == FLAG):
+            self.type = FLAG
+            self.sprite = pygame.image.load(FLAG_SPRITE)
+            self.pickup = False
+        self.rect = pygame.Rect((x,y),self.sprite.get_size())
+        self.rect.center = (x+16,y+16)
+        self.interacted = False
+        
+
+    #completes the level and starts the next one
+    def flagAction(self, player):
+        self.interacted = True
+
+    #collects the egg
+    def eggAction(self, player):
+        if not self.interacted:
+            self.interacted = True
+            player.eggs += 1
+
+
+    def collectibleCollide(self, entity):
+        if (self.rect.colliderect(entity.rect)):
+            if self.type == EGG:
+                self.eggAction(entity)
+            elif self.type == FLAG:
+                self.flagAction(entity)
