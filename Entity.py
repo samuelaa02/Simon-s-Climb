@@ -143,8 +143,6 @@ class Entity:
             self.velocity.y += PLAYER_SPEED
     
 
-
-
 class Player(Entity):
     def __init__(self, x, y):
         super().__init__(PLAYER_SPRITE, x, y, True, True)
@@ -171,26 +169,23 @@ class Enemy(Entity):
             self.knockbackPlayer(model.player)
 
     def knockbackPlayer(self, player):
-        if(self.enemyType == BEETLE):
-            #check direction  
-            if self.direction == 'left':
-                leftline = (self.rect.topleft, self.rect.bottomleft)
-                if player.rect.clipline(leftline):
-                    player.velocity.x = -MAX_SPEED * BEETLE_STRENGTH 
-            else:
-                rightline = (self.rect.topright, self.rect.bottomright)
-                if player.rect.clipline(rightline):
-                    player.velocity.x = MAX_SPEED * BEETLE_STRENGTH 
-            
-
-        elif(self.enemyType == ANT):
-            if self.rect.colliderect(player.rect):
-                self.velocity.x = 0
+        if self.rect.colliderect(player.rect):
+            self.velocity.x = 0
+            if(self.enemyType == BEETLE):
+                #check direction
+                if self.direction == 'left':
+                    leftline = (self.rect.topleft, self.rect.bottomleft)
+                    if player.rect.clipline(leftline):
+                        player.velocity.x = -MAX_SPEED * BEETLE_STRENGTH 
+                else:
+                    rightline = (self.rect.topright, self.rect.bottomright)
+                    if player.rect.clipline(rightline):
+                        player.velocity.x = MAX_SPEED * BEETLE_STRENGTH 
+            elif(self.enemyType == ANT):
                 if(player.velocity.x < 0):
                     player.velocity.x = MAX_SPEED * ANT_STRENGTH 
                 elif (player.velocity.x > 0):
                     player.velocity.x = -MAX_SPEED * ANT_STRENGTH 
-                
                 player.velocity.y = -MAX_SPEED * ANT_STRENGTH
 
 
@@ -213,19 +208,19 @@ class Enemy(Entity):
                     self.moveRight()
                 else:
                     try:
-                        if(model.stage.stageLayout[enemyGridPos[1]+1][enemyGridPos[0]-1] is not None):
+                        if((model.stage.stageLayout[enemyGridPos[1]+1][enemyGridPos[0]-1] is not None) and (model.stage.stageLayout[enemyGridPos[1]][enemyGridPos[0]-1] is None)):
                             self.moveLeft()
                         else:
                             self.moveRight()
                     except:
                         self.moveRight()
             else:
-                enemyGridPos = (int((self.rect.left)/32),int((self.rect.y)/32))
+                enemyGridPos = (int((self.rect.left+1)/32),int((self.rect.y)/32))
                 if((enemyGridPos[0]+1) == (model.stage.dimensions[0])):
                     self.moveLeft()
                 else:
                     try:
-                        if(model.stage.stageLayout[enemyGridPos[1]+1][enemyGridPos[0]+1] is not None):
+                        if((model.stage.stageLayout[enemyGridPos[1]+1][enemyGridPos[0]+1] is not None) and (model.stage.stageLayout[enemyGridPos[1]][enemyGridPos[0]+1] is None)):
                             self.moveRight()
                         else:
                             self.moveLeft()

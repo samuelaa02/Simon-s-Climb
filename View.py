@@ -35,6 +35,18 @@ WOOD29 = pygame.image.load("./tiles/Wood29.png")
 WOOD30 = pygame.image.load("./tiles/Wood30.png")
 WOOD31 = pygame.image.load("./tiles/Wood31.png")
 WOOD32 = pygame.image.load("./tiles/Wood32.png")
+WOOD33 = pygame.image.load("./tiles/Wood33.png")
+WOOD34 = pygame.image.load("./tiles/Wood34.png")
+WOOD35 = pygame.image.load("./tiles/Wood35.png")
+WOOD36 = pygame.image.load("./tiles/Wood36.png")
+WOOD37 = pygame.image.load("./tiles/Wood37.png")
+WOOD38 = pygame.image.load("./tiles/Wood38.png")
+WOOD39 = pygame.image.load("./tiles/Wood39.png")
+WOOD40 = pygame.image.load("./tiles/Wood40.png")
+WOOD41 = pygame.image.load("./tiles/Wood41.png")
+WOOD42 = pygame.image.load("./tiles/Wood42.png")
+WOOD43 = pygame.image.load("./tiles/Wood43.png")
+WOOD44 = pygame.image.load("./tiles/Wood44.png")
 MISSING = pygame.image.load("./tiles/MISSING.png")
 
 
@@ -153,6 +165,30 @@ class View:
                 return WOOD31
             case "Wood32":
                 return WOOD32
+            case "Wood33":
+                return WOOD33
+            case "Wood34":
+                return WOOD34
+            case "Wood35":
+                return WOOD35
+            case "Wood36":
+                return WOOD36
+            case "Wood37":
+                return WOOD37
+            case "Wood38":
+                return WOOD38
+            case "Wood39":
+                return WOOD39
+            case "Wood40":
+                return WOOD40
+            case "Wood41":
+                return WOOD41
+            case "Wood42":
+                return WOOD42
+            case "Wood43":
+                return WOOD43
+            case "Wood44":
+                return WOOD44
             case _:
                 return MISSING
             

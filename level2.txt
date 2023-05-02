@@ -1,7 +1,7 @@
 Level 2
 18 24
 ./bg/level2.png
-./level1.txt
+./level3.txt
 1 1
 Platforms
 Wood23 0 0
@@ -79,4 +79,4 @@ Enemies
 BEETLE 8 12
 Collectibles
 EGG 3 13
-FLAG 16 1
+FLAG 16 21
