@@ -1,7 +1,7 @@
 Final Level
 18 18
 ./bg/levelfinal.png
-./level1.txt
+./level4.txt
 8 1
 Platforms
 Wood23 0 0
@@ -55,4 +55,4 @@ Wood30 10 15
 Enemies
 BIRD 8 8
 Collectibles
-DOG 8 16
+FLAG 8 16

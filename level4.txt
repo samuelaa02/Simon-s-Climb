@@ -72,7 +72,8 @@ Wood28 0 18
 Wood30 1 18
 Wood32 16 18
 Wood28 17 18
-Wood32 7 20
+Wood32 6 20
+Wood28 7 20
 Wood28 8 20
 Wood28 9 20
 Wood28 10 20

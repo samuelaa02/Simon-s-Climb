@@ -69,7 +69,6 @@ class View:
     def updateView(self, model):
         if(model.stage.resolution != self.gameWindow.get_size()):
             self.updateResolution(model.stage.resolution)
-            #pygame.display.toggle_fullscreen()
         self.drawBackground(model.stage)
         self.drawStage(model.stage)
         self.drawEntities([model.player] + model.enemies + model.collectibles)
@@ -78,7 +77,6 @@ class View:
         pygame.display.flip()
     
     def drawBackground(self, stage):
-        #self.updateResolution(stage.resolution)
         self.gameWindow.blit(stage.background,stage.background.get_rect())
 
     def drawStage(self, stage):
