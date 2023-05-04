@@ -1,0 +1,84 @@
+Level 4
+18 24
+./bg/level4.png
+./level1.txt
+7 1
+Platforms
+Wood2 0 0
+Wood20 1 0
+Wood23 2 0
+Wood23 3 0
+Wood23 4 0
+Wood23 5 0
+Wood23 6 0
+Wood23 7 0
+Wood23 8 0
+Wood23 9 0
+Wood23 10 0
+Wood23 11 0
+Wood23 12 0
+Wood23 13 0
+Wood23 14 0
+Wood23 15 0
+Wood19 16 0
+Wood2 17 0
+Wood20 0 1
+Wood4 1 1
+Wood3 16 1
+Wood19 17 1
+Wood24 0 2
+Wood0 3 2
+Wood0 14 2
+Wood26 17 2
+Wood4 0 3
+Wood3 17 3
+Wood32 4 5
+Wood30 5 5
+Wood32 12 5
+Wood30 13 5
+Wood0 1 7
+Wood32 8 7
+Wood30 9 7
+Wood0 16 7
+Wood32 3 9
+Wood41 4 9
+Wood30 5 9
+Wood32 12 9
+Wood41 13 9
+Wood30 14 9
+Wood27 4 10
+Wood27 13 10
+Wood30 0 11
+Wood27 4 11
+Wood32 7 11
+Wood28 8 11
+Wood28 9 11
+Wood30 10 11
+Wood27 13 11
+Wood32 17 11
+Wood27 4 12
+Wood27 13 12
+Wood32 3 13
+Wood16 4 13
+Wood15 13 13
+Wood30 14 13
+Wood28 0 15
+Wood30 1 15
+Wood32 16 15
+Wood28 17 15
+Wood0 6 16
+Wood0 11 16
+Wood28 0 18
+Wood30 1 18
+Wood32 16 18
+Wood28 17 18
+Wood32 7 20
+Wood28 8 20
+Wood28 9 20
+Wood28 10 20
+Wood30 11 20
+Enemies
+BIRD 8 14
+BEETLE 8 12
+Collectibles
+DOG 9 21

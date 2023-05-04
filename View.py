@@ -1,7 +1,11 @@
 import pygame, sys, Stage, Entity
 from Entity import Player, Enemy, Entity, Collectible
 
+
+
 #images
+END1 = pygame.image.load("./bg/end1.png")
+END2 = pygame.image.load("./bg/end2.png")
 WOOD0 = pygame.image.load("./tiles/Wood0.png")
 WOOD1 = pygame.image.load("./tiles/Wood1.png")
 WOOD2 = pygame.image.load("./tiles/Wood2.png")
@@ -56,6 +60,7 @@ class View:
         pygame.display.set_caption("Simon's Climb")
         displayFlags = pygame.SCALED | pygame.RESIZABLE | pygame.FULLSCREEN
         self.gameWindow = pygame.display.set_mode((512, 512), displayFlags)
+        self.endScreen = False
     
     def updateResolution(self, new_res):
         displayFlags = pygame.SCALED | pygame.RESIZABLE | pygame.FULLSCREEN
@@ -68,7 +73,8 @@ class View:
         self.drawBackground(model.stage)
         self.drawStage(model.stage)
         self.drawEntities([model.player] + model.enemies + model.collectibles)
-        #self.drawGUI()
+        if self.endScreen:
+            self.displayEndScreen(model.player.eggs)
         pygame.display.flip()
     
     def drawBackground(self, stage):
@@ -92,10 +98,13 @@ class View:
             elif isinstance(entity, Collectible):
                 self.gameWindow.blit(entity.sprite, entity.rect)
 
+    def displayEndScreen(self, numEggs):
+        if numEggs >= 4:
+            self.gameWindow.blit(END2,END2.get_rect())
+            pass
+        else:
+            self.gameWindow.blit(END1,END1.get_rect())
 
-
-    def drawGUI(self):
-        pass
 
     def getPlatformVariant(self,material):
         match material:

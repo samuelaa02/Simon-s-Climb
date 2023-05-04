@@ -40,6 +40,8 @@ class Controller:
                 self.model.collectibles.remove(collectible)
             if(collectible.interacted and collectible.type == 'FLAG'):
                 self.model.changeStage(self.model.stage.nextLevel)
+            if(collectible.interacted and collectible.type == 'DOG'):
+                self.view.endScreen = True
 
 
 

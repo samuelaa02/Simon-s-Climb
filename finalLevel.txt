@@ -1,0 +1,58 @@
+Final Level
+18 18
+./bg/levelfinal.png
+./level1.txt
+8 1
+Platforms
+Wood23 0 0
+Wood23 1 0
+Wood23 2 0
+Wood23 3 0
+Wood23 4 0
+Wood23 5 0
+Wood23 7 0
+Wood23 6 0
+Wood23 8 0
+Wood23 9 0
+Wood23 10 0
+Wood23 11 0
+Wood23 12 0
+Wood23 13 0
+Wood23 14 0
+Wood23 15 0
+Wood23 16 0
+Wood23 17 0
+Wood32 1 2
+Wood30 2 2
+Wood32 15 2
+Wood30 16 2
+Wood32 6 4
+Wood30 7 4
+Wood32 10 4
+Wood30 11 4
+Wood32 8 6
+Wood30 9 6
+Wood0 4 8
+Wood0 13 8
+Wood0 7 10
+Wood0 10 10
+Wood18 0 11
+Wood28 1 11
+Wood30 2 11
+Wood32 15 11
+Wood28 16 11
+Wood17 17 11
+Wood29 0 12
+Wood29 17 12
+Wood32 2 14
+Wood30 3 14
+Wood32 14 14
+Wood30 15 14
+Wood32 7 15
+Wood28 8 15
+Wood28 9 15
+Wood30 10 15
+Enemies
+BIRD 8 8
+Collectibles
+DOG 8 16

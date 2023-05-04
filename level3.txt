@@ -1,7 +1,7 @@
 Level 3
 19 28
 ./bg/level3.png
-./level1.txt
+./level4.txt
 16 1
 Platforms
 Wood18 13 0 
